@@ -1,4 +1,4 @@
-# ➭ Dead By Daylight Minigame for Minecraft.
+# ➭ Microbattles Minigame for Minecraft.
 
 # ➭ Dependencies:
 > ▪ Skript ➥ https://github.com/SkriptLang/Skript/releases
