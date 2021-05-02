@@ -1,17 +1,21 @@
-# ➭ Microbattles Minigame for Minecraft.
+# ➭ Bomb Lobbers Minigame for Minecraft.
 
-# ➭ Dependencies:
+## ➭ Dependencies for Latest version:
+***
 > ▪ Skript ➥ https://github.com/SkriptLang/Skript/releases
 
-> ▪ Skript for 1.8.8-1.12 https://github.com/SkriptLang/Skript/releases/tag/dev36
-***
 > ▪ TitleManager ➥ https://www.spigotmc.org/resources/titlemanager.1049/
-***
+
 > ▪ LeafSK ➥ https://github.com/andrei923/LeafSK/releases
 ***
-> ▪ CorpseReborn ➥ https://www.spigotmc.org/resources/corpsereborn.29875/
+
+## ➭ Dependencies for 1.8.8:
 ***
-> ▪ PacketInjectorAPI ➥ https://www.spigotmc.org/resources/packetinjectorapi-send-packet-to-client-and-to-server.57931/
+> ▪ Skript ➥ https://github.com/Matocolotoe/Skript-1.8/releases/tag/2.5
+
+> ▪ TitleManager ➥ https://www.spigotmc.org/resources/titlemanager.1049/
+
+> ▪ LeafSK ➥ https://github.com/andrei923/LeafSK/releases
 ***
 
 ![GitHub release](https://img.shields.io/github/release/andrei923/MicroBattles.svg?style=for-the-badge)
