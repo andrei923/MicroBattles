@@ -1,7 +1,4 @@
 import:
-	java.lang.Math
-	java.util.Arrays 
-	java.util.ArrayList	
 	org.bukkit.Bukkit	
 	org.bukkit.Sound	
 	org.bukkit.Material		
@@ -18,26 +15,7 @@ import:
 options:
 
 	#do not touch this -_-
-	plugin-version: 1.0.0
-
-
-local effect create scoreboard for %player%:	
-	trigger:
-		if {-mb::cache::TitleManager}.hasScoreboard(expr-1) is true:
-			{-mb::cache::TitleManager}.removeScoreboard(expr-1)
-		{-mb::cache::TitleManager}.giveScoreboard(expr-1)
-
-local effect delete scoreboard of %player%:	
-	trigger:
-		{-mb::cache::TitleManager}.removeScoreboard(expr-1)	
-
-local effect set scoreboard title of %player% to %string%:	
-	trigger:
-		{-mb::cache::TitleManager}.setScoreboardTitle(expr-1 and expr-2)
-
-local effect set scoreboard line %number% of %player% to %string%:	
-	trigger:
-		{-mb::cache::TitleManager}.setScoreboardValue(expr-2, expr-1 and expr-3)
+	plugin-version: 1.1.0
 
 function check_yaml(dir: text, value: text, set: text, type: text = "TEXT"):
 	yaml value {_value} from "leaf.mb.%{_dir}%" is not set:
@@ -61,16 +39,6 @@ expression %item% with [custom] nbt %string%:
 		{_nbti}.mergeCompound(new NBTContainer(expr-2))
 		return {_nbti}.getItem()
 		
-expression %item% with [leaf] lore %texts%:
-	return type: item
-	get:
-		set {_r} to expr-1
-		loop expressions 2:
-			set {_lore} to loop-value-1
-			add 1 to {_line}			
-			set line {_line} of lore of {_r} to colored {_lore}		
-		return {_r}
-
 #From https://forums.skunity.com/resources/mirrorutils.706/ by EWS
 local expression replacer %texts% with %texts% in %text%:
 	return type: text
@@ -90,76 +58,7 @@ local plural expression [(all [[of] the]|the)] [(loc[ation]s|points) of] [a] cir
 		loop {_points} times:
 			set {_r::%loop-number%} to expr-1  ~ (new cylindrical vector from expr-2, (loop-number * {_angle}), 0)
 		return {_r::*}				
-
-local effect [leaf] set colision of %player% to %boolean%:
-	trigger:
-		expression-1.spigot().setCollidesWithEntities(expression-2)
-		try expression-1.setCollidable(expression-2)
-
-local effect [leaf] hide %player% from %player%:
-	trigger:
-		expr-2.hidePlayer(expr-1)
-
-local effect [leaf] show %player% to %player%:
-	trigger:
-		expr-2.showPlayer(expr-1)
-
-on load:
-	loop currently loaded yaml files:
-		loop-value contains "leaf.mb.config" or "leaf.mb.arenas" or "leaf.mb.playerdata"
-		unload yaml loop-value-1
-	loop "config" and "arenas":
-		load yaml "plugins/MicroBattles/%loop-value-1%.yml" as "leaf.mb.%loop-value-1%"	
-	check_yaml("config", "Settings.ChatFormat.Lobby", "&a{Wins} &8✦ &7{player} &8» &7{message}")	
-	check_yaml("config", "Settings.ChatFormat.Game", "{team} &8➭ &7{player} &8» &7{message}")								
-	check_yaml("config", "Settings.Items.Leave.Item", "magma cream")		
-	check_yaml("config", "Settings.Items.Leave.Name", "&cLeave the game")	
-	check_yaml("config", "Settings.Items.Leave.Slot", "8", "number")					
-	check_yaml("config", "Settings.Timers.In-Lobby", "30", "number")	
-	check_yaml("config", "Settings.TeamFormat.Color.Red", "&c")		
-	check_yaml("config", "Settings.TeamFormat.Name.Red", "&c&nRed&r")	
-	check_yaml("config", "Settings.TeamFormat.Color.Blue", "&b")	
-	check_yaml("config", "Settings.TeamFormat.Name.Blue", "&b&nBlue&r")	
-	check_yaml("config", "Settings.TeamFormat.Color.Green", "&a")	
-	check_yaml("config", "Settings.TeamFormat.Name.Green", "&a&nGreen&r")	
-	check_yaml("config", "Settings.TeamFormat.Color.Yellow", "&e")	
-	check_yaml("config", "Settings.TeamFormat.Name.Yellow", "&e&nYellow&r")		
-	check_yaml("config", "Settings.DestroyArena", "true", "boolean")		
-	check_yaml("config", "Settings.StatusFormat.WAITING", "&aWaiting...")	
-	check_yaml("config", "Settings.StatusFormat.STARTING", "&6Starting...")		
-	check_yaml("config", "Settings.StatusFormat.IN-GAME", "&cIn Game")	
-	check_yaml("config", "Settings.StatusFormat.RESTARTING", "&cRestarting...")										
-	check_yaml("config", "Menus.Arena-Browser.Menu", "&8» &7MicroBattles Arenas")	
-	check_yaml("config", "Menus.Arena-Browser.Name", "&8» &7Arena: &e{arena} &7⤵")	
-	check_yaml("config", "Menus.Arena-Browser.Lore", "&8︼︼︼︼︼︼︼︼︼︼︼︼||||&8➥ &bStatus: &e{status}||&8➥ &bPlaying: &e{playing}||||&8︻︻︻︻︻︻︻︻︻︻︻︻", "list")
-	check_yaml("config", "Menus.Arena-Browser.AutoJoin.Name", "&8▪ &eAutoJoin &8▪")	
-	check_yaml("config", "Menus.Arena-Browser.AutoJoin.Item", "beacon")		
-	check_yaml("config", "Menus.Stats.Menu", "&8︼︼ &7MicroBattles Stats &8︼︼")	
-	check_yaml("config", "Menus.Stats.Name", "&8➭ &e&nYour Stats&r")	
-	check_yaml("config", "Menus.Stats.Lore", "||&8♦ &7PlayedGames &a{PlayedGames}||&8♦ &7Wins &a{Wins}||&8♦ &7Kills &a{Kills}||&8♦ &7Deaths &a{Deaths}||&8♦ &7BlocksDestroyed &a{BlocksDestroyed}", "list")			
-	check_yaml("config", "Scoreboard.Waiting.Name", "&eMicro Battles")	
-	check_yaml("config", "Scoreboard.Waiting.Lines", "&7{now}||||&8♦ &fArena: &a{arena}||||&8♦ &fPlayers: &a{players}/{maxplayers}||||&8♦ &fStarting In: &a{timer}||||&b㋡ &e&nMC.SERVER.NET&r &b㋡", "list")
-	check_yaml("config", "Scoreboard.Game.Name", "&eMicro Battles") 	
-	check_yaml("config", "Scoreboard.Game.Lines", "&7{now}||||&7➥ &fYour Status ⤵||||&8▪ &fYour Kills: &a{kills}||&8▪ &fYour Team: &a{team}||||&7➥ &fGame Status ⤵||||&8╔ &c&nRed&r: {RedAlive}||&8╟ &b&nBlue&r: {BlueAlive}||&8╟ &a&nGreen&r: {GreenAlive}||&8╚ &e&nYellow&r: {YellowAlive}||||&eplay.my-cool-server.net", "list")		
-	check_yaml("config", "Messages.Join", "&7{player} &ehas joined to the game.")	
-	check_yaml("config", "Messages.Leave", "&7{player} &eleft the game.")
-	check_yaml("config", "Messages.Death", "&c➜ {victimColor}{victim} &7died")	
-	check_yaml("config", "Messages.Killed", "&c➜ {victimColor}{victim} &7was killed by {killerColor}{killer}")		
-	check_yaml("config", "Messages.Starting", "&eThe game starts in &a{seconds} &eseconds")	
-	check_yaml("config", "Messages.AlreadyPlaying", "&eYou are already playing!")	
-	check_yaml("config", "Messages.Arena.Full", "&cThis arena is full of players.")		
-	check_yaml("config", "Messages.Arena.Running", "&cThis arena is IN-GAME.")	
-	check_yaml("config", "Messages.Arena.Invalid", "&cThis arena is invalid.")	
-	check_yaml("config", "Messages.Summary", "&a︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼||||&e✦ &6Micro Battles &e✦||||&7Winners &8➭ {team}, {PlayerList}||||&a︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻", "list")			
-	loop "config" and "arenas":		
-		save yaml "leaf.mb.%loop-value-1%"	
-	loop all players:
-		mb_stats(loop-value-1, "check")	
-		delete {-mb::cache::player::%loop-player%::*}
-		delete metadata value "MB_DEAD" of loop-player
-		delete metadata value "MB_KILLER" of loop-player
-										
-
+									
 command mb [<text = help>] [<text>] [<text>] [<number>]:
 	aliases: MicroBattles
 	executable by: players
@@ -202,7 +101,7 @@ command mb [<text = help>] [<text>] [<text>] [<number>]:
 					set {_lore::*} to yaml list "Menus.Arena-Browser.Lore" from "leaf.mb.config"
 					replace all "{status}" with yaml value "Settings.StatusFormat.%{-mb::cache::arena::%loop-value%::status}%" from "leaf.mb.config" in {_lore::*}
 					replace all "{playing}" with "%size of {-mb::cache::arena::%loop-value%::ninjas::*}%" in {_lore::*}																	
-					make a gui slot {_slot} of player with {_item} with leaf lore {_lore::*} to run function mb_join(player, loop-value-1)
+					make a gui slot {_slot} of player with {_item} with lore colored {_lore::*} to run function mb_join(player, loop-value-1)
 					add 1 to {_slot}
 					if {_slot} is 17 or 26 or 35:
 						add 2 to {_slot}
@@ -216,7 +115,7 @@ command mb [<text = help>] [<text>] [<text>] [<number>]:
 				loop "PlayedGames", "Wins", "Kills", "Deaths" and "BlocksDestroyed":
 					set {_int} to yaml value "Stats.%loop-value-1%" from "leaf.mb.playerdata.%uuid of player%"
 					replace all "{%loop-value-1%}" with "%{_int}%" in {_lore::*}
-				make a gui slot 4 of player with paper named yaml value "Menus.Stats.Name" from "leaf.mb.config" with leaf lore {_lore::*} to do nothing							
+				make a gui slot 4 of player with paper named yaml value "Menus.Stats.Name" from "leaf.mb.config" with lore colored {_lore::*} to do nothing							
 		if arg-1 is "leave":	
 			mb_leave(player)
 		if arg-1 is "autojoin":		
@@ -412,12 +311,59 @@ command mb [<text = help>] [<text>] [<text>] [<number>]:
 	
 on load:
 	delete {-mb::cache::*}
-	send "&7&l--------------------------------------------" to console
-	send " " to console
-	send "&aLoading &ev.{@plugin-version}&a..." to console
-	broadcast "&7⚙&e〉&a&aMicroBattles loaded!"
-	send " " to console
-	send "&7&l--------------------------------------------" to console
+	loop currently loaded yaml files:
+		loop-value contains "leaf.mb.config" or "leaf.mb.arenas" or "leaf.mb.playerdata"
+		unload yaml loop-value-1
+	loop "config" and "arenas":
+		load yaml "plugins/MicroBattles/%loop-value-1%.yml" as "leaf.mb.%loop-value-1%"	
+	check_yaml("config", "Settings.ChatFormat.Lobby", "&a{Wins} &8✦ &7{player} &8» &7{message}")	
+	check_yaml("config", "Settings.ChatFormat.Game", "{team} &8➭ &7{player} &8» &7{message}")								
+	check_yaml("config", "Settings.Items.Leave.Item", "magma cream")		
+	check_yaml("config", "Settings.Items.Leave.Name", "&cLeave the game")	
+	check_yaml("config", "Settings.Items.Leave.Slot", "8", "number")					
+	check_yaml("config", "Settings.Timers.In-Lobby", "30", "number")	
+	check_yaml("config", "Settings.TeamFormat.Color.Red", "&c")		
+	check_yaml("config", "Settings.TeamFormat.Name.Red", "&c&nRed&r")	
+	check_yaml("config", "Settings.TeamFormat.Color.Blue", "&b")	
+	check_yaml("config", "Settings.TeamFormat.Name.Blue", "&b&nBlue&r")	
+	check_yaml("config", "Settings.TeamFormat.Color.Green", "&a")	
+	check_yaml("config", "Settings.TeamFormat.Name.Green", "&a&nGreen&r")	
+	check_yaml("config", "Settings.TeamFormat.Color.Yellow", "&e")	
+	check_yaml("config", "Settings.TeamFormat.Name.Yellow", "&e&nYellow&r")		
+	check_yaml("config", "Settings.DestroyArena", "true", "boolean")		
+	check_yaml("config", "Settings.StatusFormat.WAITING", "&aWaiting...")	
+	check_yaml("config", "Settings.StatusFormat.STARTING", "&6Starting...")		
+	check_yaml("config", "Settings.StatusFormat.IN-GAME", "&cIn Game")	
+	check_yaml("config", "Settings.StatusFormat.RESTARTING", "&cRestarting...")										
+	check_yaml("config", "Menus.Arena-Browser.Menu", "&8» &7MicroBattles Arenas")	
+	check_yaml("config", "Menus.Arena-Browser.Name", "&8» &7Arena: &e{arena} &7⤵")	
+	check_yaml("config", "Menus.Arena-Browser.Lore", "&8︼︼︼︼︼︼︼︼︼︼︼︼||||&8➥ &bStatus: &e{status}||&8➥ &bPlaying: &e{playing}||||&8︻︻︻︻︻︻︻︻︻︻︻︻", "list")
+	check_yaml("config", "Menus.Arena-Browser.AutoJoin.Name", "&8▪ &eAutoJoin &8▪")	
+	check_yaml("config", "Menus.Arena-Browser.AutoJoin.Item", "beacon")		
+	check_yaml("config", "Menus.Stats.Menu", "&8︼︼ &7MicroBattles Stats &8︼︼")	
+	check_yaml("config", "Menus.Stats.Name", "&8➭ &e&nYour Stats&r")	
+	check_yaml("config", "Menus.Stats.Lore", "||&8♦ &7PlayedGames &a{PlayedGames}||&8♦ &7Wins &a{Wins}||&8♦ &7Kills &a{Kills}||&8♦ &7Deaths &a{Deaths}||&8♦ &7BlocksDestroyed &a{BlocksDestroyed}", "list")			
+	check_yaml("config", "Scoreboard.Waiting.Name", "&eMicro Battles")	
+	check_yaml("config", "Scoreboard.Waiting.Lines", "&7{now}||||&8♦ &fArena: &a{arena}||||&8♦ &fPlayers: &a{players}/{maxplayers}||||&8♦ &fStarting In: &a{timer}||||&b㋡ &e&nMC.SERVER.NET&r &b㋡", "list")
+	check_yaml("config", "Scoreboard.Game.Name", "&eMicro Battles") 	
+	check_yaml("config", "Scoreboard.Game.Lines", "&7{now}||||&7➥ &fYour Status ⤵||||&8▪ &fYour Kills: &a{kills}||&8▪ &fYour Team: &a{team}||||&7➥ &fGame Status ⤵||||&8╔ &c&nRed&r: {RedAlive}||&8╟ &b&nBlue&r: {BlueAlive}||&8╟ &a&nGreen&r: {GreenAlive}||&8╚ &e&nYellow&r: {YellowAlive}||||&eplay.my-cool-server.net", "list")		
+	check_yaml("config", "Messages.Join", "&7{player} &ehas joined to the game.")	
+	check_yaml("config", "Messages.Leave", "&7{player} &eleft the game.")
+	check_yaml("config", "Messages.Death", "&c➜ {victimColor}{victim} &7died")	
+	check_yaml("config", "Messages.Killed", "&c➜ {victimColor}{victim} &7was killed by {killerColor}{killer}")		
+	check_yaml("config", "Messages.Starting", "&eThe game starts in &a{seconds} &eseconds")	
+	check_yaml("config", "Messages.AlreadyPlaying", "&eYou are already playing!")	
+	check_yaml("config", "Messages.Arena.Full", "&cThis arena is full of players.")		
+	check_yaml("config", "Messages.Arena.Running", "&cThis arena is IN-GAME.")	
+	check_yaml("config", "Messages.Arena.Invalid", "&cThis arena is invalid.")	
+	check_yaml("config", "Messages.Summary", "&a︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼||||&e✦ &6Micro Battles &e✦||||&7Winners &8➭ {team}, {PlayerList}||||&a︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻", "list")			
+	loop "config" and "arenas":		
+		save yaml "leaf.mb.%loop-value-1%"	
+	loop all players:
+		mb_stats(loop-value-1, "check")	
+		delete {-mb::cache::player::%loop-player%::*}
+		delete metadata value "MB_DEAD" of loop-player
+		delete metadata value "MB_KILLER" of loop-player	
 	loop yaml nodes with keys "" from "leaf.mb.arenas":
 		if yaml value "%loop-value-1%.State" from "leaf.mb.arenas" is "ready":
 			add loop-value-1 to {-mb::cache::arenas::*}
@@ -425,8 +371,15 @@ on load:
 		mb_resetarena(loop-value-1)		
 	set {-mb::cache::TitleManager} to Bukkit.getServer().getPluginManager().getPlugin("TitleManager")	
 	set {-mb::cache::Items::Leave} to yaml value "Settings.Items.Leave.Item" from "leaf.mb.config" parsed as material named yaml value "Settings.Items.Leave.Name" from "leaf.mb.config"	
+	set {-mb::cache::SB::*} to "&a", "&b", "&c", "&d", "&e", "&1", "&2", "&3", "&4", "&5", "&6", "&7", "&8", "&9" and "&f"		
 	if yaml value "Locations.MainLobby" from "leaf.mb.config" is not set:
 		broadcast "&7⚙&e〉&a&cMicroBattles Main lobby is not set!."
+	send "&7&l--------------------------------------------" to console
+	send " " to console
+	send "&aLoading &ev.{@plugin-version}&a..." to console
+	broadcast "&7⚙&e〉&a&aMicroBattles loaded!"
+	send " " to console
+	send "&7&l--------------------------------------------" to console		
 
 function mb_team_tag(p: player, type: boolean):
 	NametagEdit.getApi().clearNametag({_p})
@@ -905,11 +858,6 @@ function mb_clear_player(p: player):
 		{_p}.removePotionEffect(loop-value.getType())	
 	set velocity of {_p} to new vector 0, 0, 0	
 
-function mb_setSlot(p: player, slot: number, t: text):
-	add "&a", "&b", "&c", "&d", "&e", "&1", "&2", "&3", "&4", "&5", "&6", "&7", "&8", "&9" and "&f" to {_d::*}
-	if {_slot} is between 1 and 15: 
-		set scoreboard line {_slot} of {_p} to "%{_d::%{_slot}%}%%{_t}%"		
-	
 function mb_createBoard(p: player, t: text):
 	set {_arena} to {-mb::cache::player::%{_p}%::arena}
 	create scoreboard for {_p}
@@ -928,7 +876,7 @@ function mb_createBoard(p: player, t: text):
 					replace all "{players}" with "%size of {-mb::cache::arena::%{_arena}%::ninjas::*}%" in {_value}
 					replace all "{maxplayers}" with "%{_maxPlayers}%" in {_value}
 					replace all "{arena}" with "%{-mb::cache::player::%{_p}%::arena}%" in {_value}
-					mb_setSlot({_p}, {_slot}, colored {_value})
+					set scoreboard line {_slot} of {_p} to "%{-mb::cache::SB::%{_slot}%}%%{_value}%"
 					add 1 to {_slot}
 			else:
 				stop
@@ -948,7 +896,7 @@ function mb_createBoard(p: player, t: text):
 					replace all "{YellowAlive}" with "%size of {-mb::cache::arena::%{-mb::cache::player::%{_p}%::arena}%::team::Yellow::*}%" in {_value}					
 					replace all "{kills}" with "%{-mb::cache::player::%{_p}%::GameKills}%" in {_value}
 					replace all "{team}" with yaml value "Settings.TeamFormat.Name.%{-mb::cache::player::%{_p}%::team}%" from "leaf.mb.config" in {_value}					
-					mb_setSlot({_p}, {_slot}, colored {_value})
+					set scoreboard line {_slot} of {_p} to "%{-mb::cache::SB::%{_slot}%}%%{_value}%"
 					add 1 to {_slot}
 			else:
 				stop							
