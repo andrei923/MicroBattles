@@ -17,7 +17,7 @@ options:
 	#do not touch this -_-
 	plugin-version: 1.1.0
 
-function check_yaml(dir: text, value: text, set: text, type: text = "TEXT"):
+function mb_check_yaml(dir: text, value: text, set: text, type: text = "TEXT"):
 	yaml value {_value} from "leaf.mb.%{_dir}%" is not set:
 		if {_type} is "text":
 			set yaml value {_value} from "leaf.mb.%{_dir}%" to {_set}
@@ -316,47 +316,47 @@ on load:
 		unload yaml loop-value-1
 	loop "config" and "arenas":
 		load yaml "plugins/MicroBattles/%loop-value-1%.yml" as "leaf.mb.%loop-value-1%"	
-	check_yaml("config", "Settings.ChatFormat.Lobby", "&a{Wins} &8✦ &7{player} &8» &7{message}")	
-	check_yaml("config", "Settings.ChatFormat.Game", "{team} &8➭ &7{player} &8» &7{message}")								
-	check_yaml("config", "Settings.Items.Leave.Item", "magma cream")		
-	check_yaml("config", "Settings.Items.Leave.Name", "&cLeave the game")	
-	check_yaml("config", "Settings.Items.Leave.Slot", "8", "number")					
-	check_yaml("config", "Settings.Timers.In-Lobby", "30", "number")	
-	check_yaml("config", "Settings.TeamFormat.Color.Red", "&c")		
-	check_yaml("config", "Settings.TeamFormat.Name.Red", "&c&nRed&r")	
-	check_yaml("config", "Settings.TeamFormat.Color.Blue", "&b")	
-	check_yaml("config", "Settings.TeamFormat.Name.Blue", "&b&nBlue&r")	
-	check_yaml("config", "Settings.TeamFormat.Color.Green", "&a")	
-	check_yaml("config", "Settings.TeamFormat.Name.Green", "&a&nGreen&r")	
-	check_yaml("config", "Settings.TeamFormat.Color.Yellow", "&e")	
-	check_yaml("config", "Settings.TeamFormat.Name.Yellow", "&e&nYellow&r")		
-	check_yaml("config", "Settings.DestroyArena", "true", "boolean")		
-	check_yaml("config", "Settings.StatusFormat.WAITING", "&aWaiting...")	
-	check_yaml("config", "Settings.StatusFormat.STARTING", "&6Starting...")		
-	check_yaml("config", "Settings.StatusFormat.IN-GAME", "&cIn Game")	
-	check_yaml("config", "Settings.StatusFormat.RESTARTING", "&cRestarting...")										
-	check_yaml("config", "Menus.Arena-Browser.Menu", "&8» &7MicroBattles Arenas")	
-	check_yaml("config", "Menus.Arena-Browser.Name", "&8» &7Arena: &e{arena} &7⤵")	
-	check_yaml("config", "Menus.Arena-Browser.Lore", "&8︼︼︼︼︼︼︼︼︼︼︼︼||||&8➥ &bStatus: &e{status}||&8➥ &bPlaying: &e{playing}||||&8︻︻︻︻︻︻︻︻︻︻︻︻", "list")
-	check_yaml("config", "Menus.Arena-Browser.AutoJoin.Name", "&8▪ &eAutoJoin &8▪")	
-	check_yaml("config", "Menus.Arena-Browser.AutoJoin.Item", "beacon")		
-	check_yaml("config", "Menus.Stats.Menu", "&8︼︼ &7MicroBattles Stats &8︼︼")	
-	check_yaml("config", "Menus.Stats.Name", "&8➭ &e&nYour Stats&r")	
-	check_yaml("config", "Menus.Stats.Lore", "||&8♦ &7PlayedGames &a{PlayedGames}||&8♦ &7Wins &a{Wins}||&8♦ &7Kills &a{Kills}||&8♦ &7Deaths &a{Deaths}||&8♦ &7BlocksDestroyed &a{BlocksDestroyed}", "list")			
-	check_yaml("config", "Scoreboard.Waiting.Name", "&eMicro Battles")	
-	check_yaml("config", "Scoreboard.Waiting.Lines", "&7{now}||||&8♦ &fArena: &a{arena}||||&8♦ &fPlayers: &a{players}/{maxplayers}||||&8♦ &fStarting In: &a{timer}||||&b㋡ &e&nMC.SERVER.NET&r &b㋡", "list")
-	check_yaml("config", "Scoreboard.Game.Name", "&eMicro Battles") 	
-	check_yaml("config", "Scoreboard.Game.Lines", "&7{now}||||&7➥ &fYour Status ⤵||||&8▪ &fYour Kills: &a{kills}||&8▪ &fYour Team: &a{team}||||&7➥ &fGame Status ⤵||||&8╔ &c&nRed&r: {RedAlive}||&8╟ &b&nBlue&r: {BlueAlive}||&8╟ &a&nGreen&r: {GreenAlive}||&8╚ &e&nYellow&r: {YellowAlive}||||&eplay.my-cool-server.net", "list")		
-	check_yaml("config", "Messages.Join", "&7{player} &ehas joined to the game.")	
-	check_yaml("config", "Messages.Leave", "&7{player} &eleft the game.")
-	check_yaml("config", "Messages.Death", "&c➜ {victimColor}{victim} &7died")	
-	check_yaml("config", "Messages.Killed", "&c➜ {victimColor}{victim} &7was killed by {killerColor}{killer}")		
-	check_yaml("config", "Messages.Starting", "&eThe game starts in &a{seconds} &eseconds")	
-	check_yaml("config", "Messages.AlreadyPlaying", "&eYou are already playing!")	
-	check_yaml("config", "Messages.Arena.Full", "&cThis arena is full of players.")		
-	check_yaml("config", "Messages.Arena.Running", "&cThis arena is IN-GAME.")	
-	check_yaml("config", "Messages.Arena.Invalid", "&cThis arena is invalid.")	
-	check_yaml("config", "Messages.Summary", "&a︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼||||&e✦ &6Micro Battles &e✦||||&7Winners &8➭ {team}, {PlayerList}||||&a︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻", "list")			
+	mb_check_yaml("config", "Settings.ChatFormat.Lobby", "&a{Wins} &8✦ &7{player} &8» &7{message}")	
+	mb_check_yaml("config", "Settings.ChatFormat.Game", "{team} &8➭ &7{player} &8» &7{message}")								
+	mb_check_yaml("config", "Settings.Items.Leave.Item", "magma cream")		
+	mb_check_yaml("config", "Settings.Items.Leave.Name", "&cLeave the game")	
+	mb_check_yaml("config", "Settings.Items.Leave.Slot", "8", "number")					
+	mb_check_yaml("config", "Settings.Timers.In-Lobby", "30", "number")	
+	mb_check_yaml("config", "Settings.TeamFormat.Color.Red", "&c")		
+	mb_check_yaml("config", "Settings.TeamFormat.Name.Red", "&c&nRed&r")	
+	mb_check_yaml("config", "Settings.TeamFormat.Color.Blue", "&b")	
+	mb_check_yaml("config", "Settings.TeamFormat.Name.Blue", "&b&nBlue&r")	
+	mb_check_yaml("config", "Settings.TeamFormat.Color.Green", "&a")	
+	mb_check_yaml("config", "Settings.TeamFormat.Name.Green", "&a&nGreen&r")	
+	mb_check_yaml("config", "Settings.TeamFormat.Color.Yellow", "&e")	
+	mb_check_yaml("config", "Settings.TeamFormat.Name.Yellow", "&e&nYellow&r")		
+	mb_check_yaml("config", "Settings.DestroyArena", "true", "boolean")		
+	mb_check_yaml("config", "Settings.StatusFormat.WAITING", "&aWaiting...")	
+	mb_check_yaml("config", "Settings.StatusFormat.STARTING", "&6Starting...")		
+	mb_check_yaml("config", "Settings.StatusFormat.IN-GAME", "&cIn Game")	
+	mb_check_yaml("config", "Settings.StatusFormat.RESTARTING", "&cRestarting...")										
+	mb_check_yaml("config", "Menus.Arena-Browser.Menu", "&8» &7MicroBattles Arenas")	
+	mb_check_yaml("config", "Menus.Arena-Browser.Name", "&8» &7Arena: &e{arena} &7⤵")	
+	mb_check_yaml("config", "Menus.Arena-Browser.Lore", "&8︼︼︼︼︼︼︼︼︼︼︼︼||||&8➥ &bStatus: &e{status}||&8➥ &bPlaying: &e{playing}||||&8︻︻︻︻︻︻︻︻︻︻︻︻", "list")
+	mb_check_yaml("config", "Menus.Arena-Browser.AutoJoin.Name", "&8▪ &eAutoJoin &8▪")	
+	mb_check_yaml("config", "Menus.Arena-Browser.AutoJoin.Item", "beacon")		
+	mb_check_yaml("config", "Menus.Stats.Menu", "&8︼︼ &7MicroBattles Stats &8︼︼")	
+	mb_check_yaml("config", "Menus.Stats.Name", "&8➭ &e&nYour Stats&r")	
+	mb_check_yaml("config", "Menus.Stats.Lore", "||&8♦ &7PlayedGames &a{PlayedGames}||&8♦ &7Wins &a{Wins}||&8♦ &7Kills &a{Kills}||&8♦ &7Deaths &a{Deaths}||&8♦ &7BlocksDestroyed &a{BlocksDestroyed}", "list")			
+	mb_check_yaml("config", "Scoreboard.Waiting.Name", "&eMicro Battles")	
+	mb_check_yaml("config", "Scoreboard.Waiting.Lines", "&7{now}||||&8♦ &fArena: &a{arena}||||&8♦ &fPlayers: &a{players}/{maxplayers}||||&8♦ &fStarting In: &a{timer}||||&b㋡ &e&nMC.SERVER.NET&r &b㋡", "list")
+	mb_check_yaml("config", "Scoreboard.Game.Name", "&eMicro Battles") 	
+	mb_check_yaml("config", "Scoreboard.Game.Lines", "&7{now}||||&7➥ &fYour Status ⤵||||&8▪ &fYour Kills: &a{kills}||&8▪ &fYour Team: &a{team}||||&7➥ &fGame Status ⤵||||&8╔ &c&nRed&r: {RedAlive}||&8╟ &b&nBlue&r: {BlueAlive}||&8╟ &a&nGreen&r: {GreenAlive}||&8╚ &e&nYellow&r: {YellowAlive}||||&eplay.my-cool-server.net", "list")		
+	mb_check_yaml("config", "Messages.Join", "&7{player} &ehas joined to the game.")	
+	mb_check_yaml("config", "Messages.Leave", "&7{player} &eleft the game.")
+	mb_check_yaml("config", "Messages.Death", "&c➜ {victimColor}{victim} &7died")	
+	mb_check_yaml("config", "Messages.Killed", "&c➜ {victimColor}{victim} &7was killed by {killerColor}{killer}")		
+	mb_check_yaml("config", "Messages.Starting", "&eThe game starts in &a{seconds} &eseconds")	
+	mb_check_yaml("config", "Messages.AlreadyPlaying", "&eYou are already playing!")	
+	mb_check_yaml("config", "Messages.Arena.Full", "&cThis arena is full of players.")		
+	mb_check_yaml("config", "Messages.Arena.Running", "&cThis arena is IN-GAME.")	
+	mb_check_yaml("config", "Messages.Arena.Invalid", "&cThis arena is invalid.")	
+	mb_check_yaml("config", "Messages.Summary", "&a︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼︼||||&e✦ &6Micro Battles &e✦||||&7Winners &8➭ {team}, {PlayerList}||||&a︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻︻", "list")			
 	loop "config" and "arenas":		
 		save yaml "leaf.mb.%loop-value-1%"	
 	loop all players:
@@ -504,7 +504,7 @@ function mb_start(arena: text):
 		dye loop-value-1's boots {_color}
 		set slot 0 of loop-value-1's inventory to wood sword	
 		set slot 1 of loop-value-1's inventory to bow
-		set slot 2 of loop-value-1's inventory to 3 of red apple
+		set slot 2 of loop-value-1's inventory to 3 of apple
 		set slot 3 of loop-value-1's inventory to arrow				
 		set slot 8 of loop-value-1's inventory to loop-value-1's chestplate
 		set metadata value "MB_OWNER" of loop-value-1 to loop-value-1
@@ -801,7 +801,7 @@ function mb_start_countdown(arena: text):
 function mb_destroyWalls(arena: text):
 	loop 2 times:
 		set {_int} to 0
-		loop blocks within yaml value "%{_arena}%.Position%loop-value-1%.1" from "leaf.mb.arenas" to yaml value "%{_arena}%.Position%loop-value-1%.2" from "leaf.mb.arenas":
+		loop blocks within yaml value "%{_arena}%.Position%loop-value-1%.1" from "leaf.mb.arenas" and yaml value "%{_arena}%.Position%loop-value-1%.2" from "leaf.mb.arenas":
 			if type of loop-block is not air:
 				set {mb::arena::%{_arena}%::OMAE-MO-SHINDEIRU::%location of loop-block%} to location of loop-block
 				set {mb::arena::%{_arena}%::NANI?!::%location of loop-block%} to type of loop-block
@@ -837,7 +837,7 @@ function mb_resetarena(arena: text):
 			set {_int} to 0
 	loop 2 times:
 		set {_int} to 0
-		loop blocks within yaml value "%{_arena}%.Position%loop-value-1%.1" from "leaf.mb.arenas" to yaml value "%{_arena}%.Position%loop-value-1%.2" from "leaf.mb.arenas":
+		loop blocks within yaml value "%{_arena}%.Position%loop-value-1%.1" from "leaf.mb.arenas" and yaml value "%{_arena}%.Position%loop-value-1%.2" from "leaf.mb.arenas":
 			if type of loop-block is not air:
 				set metadata value "MicroBattlesBorder" of loop-block to true		
 	delete {mb::arena::%{_arena}%::*}			
