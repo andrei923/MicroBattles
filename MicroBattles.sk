@@ -446,10 +446,13 @@ function mb_join(p: player, arena: text):
 		send yaml value "Messages.AlreadyPlaying" from "leaf.mb.config" to {_p}
 
 function mb_play_sound(p: player, soundLegacy: string, soundNew: string):
-	if minecraft version contains "1.8":
-		{_p}.playSound(location of {_p}, Sound..{_soundLegacy}, 1 and 1)	
+	if {-mb::cache::sounds::%{_soundLegacy}%} is not set:
+		if minecraft version contains "1.8":
+			set {-mb::cache::sounds::%{_soundLegacy}%} to Sound..{_soundLegacy}
+		else:
+			set {-mb::cache::sounds::%{_soundLegacy}%} to Sound..{_soundNew}
 	else:	
-		{_p}.playSound(location of {_p}, Sound..{_soundNew}, 1 and 1)	
+		{_p}.playSound(location of {_p}, {-mb::cache::sounds::%{_soundLegacy}%}, 1 and 1)	
 
 function mb_setTeam(p: player, team: text):
 	set {-mb::cache::player::%{_p}%::team} to {_team}
