@@ -15,7 +15,7 @@ import:
 options:
 
 	#do not touch this -_-
-	plugin-version: 1.1.0
+	plugin-version: 1.1.1
 
 function mb_check_yaml(dir: text, value: text, set: text, type: text = "TEXT"):
 	yaml value {_value} from "leaf.mb.%{_dir}%" is not set:
@@ -879,7 +879,7 @@ function mb_createBoard(p: player, t: text):
 					replace all "{players}" with "%size of {-mb::cache::arena::%{_arena}%::ninjas::*}%" in {_value}
 					replace all "{maxplayers}" with "%{_maxPlayers}%" in {_value}
 					replace all "{arena}" with "%{-mb::cache::player::%{_p}%::arena}%" in {_value}
-					set scoreboard line {_slot} of {_p} to "%{-mb::cache::SB::%{_slot}%}%%{_value}%"
+					set scoreboard line {_slot} of {_p} to colored "%{-mb::cache::SB::%{_slot}%}%%{_value}%"
 					add 1 to {_slot}
 			else:
 				stop
@@ -899,7 +899,7 @@ function mb_createBoard(p: player, t: text):
 					replace all "{YellowAlive}" with "%size of {-mb::cache::arena::%{-mb::cache::player::%{_p}%::arena}%::team::Yellow::*}%" in {_value}					
 					replace all "{kills}" with "%{-mb::cache::player::%{_p}%::GameKills}%" in {_value}
 					replace all "{team}" with yaml value "Settings.TeamFormat.Name.%{-mb::cache::player::%{_p}%::team}%" from "leaf.mb.config" in {_value}					
-					set scoreboard line {_slot} of {_p} to "%{-mb::cache::SB::%{_slot}%}%%{_value}%"
+					set scoreboard line {_slot} of {_p} to colored "%{-mb::cache::SB::%{_slot}%}%%{_value}%"
 					add 1 to {_slot}
 			else:
 				stop							
