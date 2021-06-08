@@ -15,7 +15,7 @@ import:
 options:
 
 	#do not touch this -_-
-	plugin-version: 1.1.1
+	plugin-version: 1.1.2
 
 function mb_check_yaml(dir: text, value: text, set: text, type: text = "TEXT"):
 	yaml value {_value} from "leaf.mb.%{_dir}%" is not set:
@@ -451,8 +451,7 @@ function mb_play_sound(p: player, soundLegacy: string, soundNew: string):
 			set {-mb::cache::sounds::%{_soundLegacy}%} to Sound..{_soundLegacy}
 		else:
 			set {-mb::cache::sounds::%{_soundLegacy}%} to Sound..{_soundNew}
-	else:	
-		{_p}.playSound(location of {_p}, {-mb::cache::sounds::%{_soundLegacy}%}, 1 and 1)	
+	{_p}.playSound(location of {_p}, {-mb::cache::sounds::%{_soundLegacy}%}, 1 and 1)	
 
 function mb_setTeam(p: player, team: text):
 	set {-mb::cache::player::%{_p}%::team} to {_team}
